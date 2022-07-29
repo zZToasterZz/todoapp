@@ -34,10 +34,10 @@ public class ToDoController
 		return ResponseEntity.ok(new ResponseMessage("Accepted"));
 	}
 	
-	@PutMapping("/upate")
+	@PutMapping("/update")
 	public ResponseEntity<?> upateTask(@RequestBody TasksRequest request)
 	{
-		if(request.getTaskid() == 0)
+		if(request.getTaskid() == null || request.getTaskid() == 0)
 			throw new BusinessException("ID cannot be empty");
 		
 		request.setDelete("");

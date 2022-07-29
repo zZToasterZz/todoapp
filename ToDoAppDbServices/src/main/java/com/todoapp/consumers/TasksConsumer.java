@@ -16,11 +16,11 @@ public class TasksConsumer
 	TasksService tasksService;
 	
 	@RabbitListener(queues = "${com.todoapp.queue.tasksqueue}")
-	public void consumeTasksQueue(TasksRequest req) throws Exception
+	public void consumeTasksQueue(TasksRequest req)
 	{
 		System.out.println(req.toString());
 		
-		if(req.getTaskid() == 0)
+		if(req.getTaskid() == null || req.getTaskid() == 0)
 		{
 			tasksService.addTask(req); //add if id is 0
 		}

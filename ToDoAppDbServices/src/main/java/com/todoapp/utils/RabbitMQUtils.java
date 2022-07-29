@@ -10,12 +10,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
-@AllArgsConstructor
 @Getter
 @Setter
 @Component
 public class RabbitMQUtils
 {
-	@Value("${com.todoapp.queue.tasksqueue}")
 	private final String tasksqueue;
+
+	public RabbitMQUtils(@Value("${com.todoapp.queue.tasksqueue}") String tasksqueue) {
+		super();
+		this.tasksqueue = tasksqueue;
+	}
 }

@@ -17,7 +17,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class TasksRequest
 {
-	Integer taskid;
+	Integer taskid=0;
 	String description;
 	Boolean complete;
 	String delete="N";
