@@ -19,6 +19,11 @@ public class TasksService
 	@Autowired
 	TasksRepository taskRepo;
 	
+	TasksService(TasksRepository e)//For unit testing, not used for injecting
+	{
+		taskRepo = e;
+	}
+	
 	public List<TasksRequest> addAllTasks(List<TasksRequest> request)
 	{
 		List<Tasks> x = request.stream().map(i -> {
@@ -32,14 +37,16 @@ public class TasksService
 	
 	public void addTask(TasksRequest request)
 	{
+		request.setComplete(false);
 		taskRepo.save(new Tasks(0, request.getDescription(), request.getComplete()));
 	}
 	
 	public void updateTask(TasksRequest request)
 	{
-		if(taskRepo.findById(request.getTaskid()).isPresent())
+		Optional<Tasks> t = taskRepo.findById(request.getTaskid());
+		if(t.isPresent())
 		{
-			taskRepo.save(new Tasks(request.getTaskid(), request.getDescription(), request.getComplete()));
+			taskRepo.save(new Tasks(request.getTaskid(), request.getDescription(), t.get().getComplete()));
 		}
 		else
 		{

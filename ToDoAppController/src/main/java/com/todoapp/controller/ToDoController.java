@@ -30,39 +30,23 @@ public class ToDoController
 	@PostMapping("/add")
 	public ResponseEntity<?> addTask(@RequestBody TasksRequest request)
 	{
-		request.setTaskid(0);
-		request.setDelete("");
-		request.setComplete(false);
-		
-		taskService.queueTask(request);
+		taskService.addTask(request);
 		return ResponseEntity.ok(new ResponseMessage("Accepted"));
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<?> upateTask(@RequestBody TasksRequest request)
 	{
-		if(request.getTaskid() == null || request.getTaskid() == 0)
-			throw new BusinessException("ID cannot be empty");
-		
-		request.setDelete("");
-		request.setComplete(false);
-		taskService.queueTask(request);
+		taskService.updateTask(request);
 		return ResponseEntity.ok(new ResponseMessage("Accepted"));
 	}
 	
 	@PatchMapping("/complete/{id}")
 	public ResponseEntity<?> completeTask(@PathVariable Integer id)
 	{
-		if(id == 0)
-			throw new BusinessException("ID cannot be 0");
-		
-		TasksRequest request = new TasksRequest();
-		request.setTaskid(id);
-		request.setComplete(true);
-		request.setCompleteAsString("true");
-		taskService.queueTask(request);
+		taskService.completeTask(id);
 		return ResponseEntity.ok(new ResponseMessage("Accepted"));
-	} 
+	}
 	
 	@GetMapping("/fetch")
 	public ResponseEntity<TasksResponse[]> getTasks()
@@ -73,7 +57,7 @@ public class ToDoController
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteTask(@PathVariable Integer id)
 	{
-		taskService.queueTask(new TasksRequest(id,"",false,"false","Y") );
+		taskService.deleteTask(new TasksRequest(id,"",false,"Y") );
 		return ResponseEntity.ok(new ResponseMessage("Accepted"));
 	}
 }

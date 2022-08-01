@@ -52,7 +52,44 @@ public class TasksService
 		return response;
 	}
 	
-	public void queueTask(TasksRequest request)
+	public void addTask(TasksRequest request)
+	{
+		request.setTaskid(0);
+		request.setDelete("");
+		request.setComplete(false);
+		
+		rabbitTemplate.convertAndSend(mqUtils.getTasksqueue(),request);
+	}
+	
+	public void updateTask(TasksRequest request)
+	{
+		if(request.getTaskid() == null || request.getTaskid() == 0)
+			throw new BusinessException("ID cannot be empty");
+		
+		request.setDelete("");
+		request.setComplete(false);
+		
+		rabbitTemplate.convertAndSend(mqUtils.getTasksqueue(),request);
+	}
+	
+	public void completeTask(Integer id)
+	{
+		if(id == 0)
+			throw new BusinessException("ID cannot be 0");
+		
+		TasksRequest request = new TasksRequest();
+		request.setTaskid(id);
+		request.setComplete(true);
+		
+		rabbitTemplate.convertAndSend(mqUtils.getTasksqueue(),request);
+	}
+	
+	public void deleteTask(TasksRequest request)
+	{
+		rabbitTemplate.convertAndSend(mqUtils.getTasksqueue(),request);
+	}
+	
+	public void addToQueue(TasksRequest request)
 	{
 		rabbitTemplate.convertAndSend(mqUtils.getTasksqueue(),request);
 	}
