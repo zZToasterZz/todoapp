@@ -1,6 +1,7 @@
 package com.todoapp.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +43,37 @@ public class TasksService
 		}
 		else
 		{
-			throw new BusinessException("No task present with id : "+request.getTaskid());
+			//throw new BusinessException("No task present with id : "+request.getTaskid());
+			
+			//Log that no task is present and return, throwing exception will send the
+			// consumer in an infinite error loop since the message is still present in the Queue
+			return;
+		}
+	}
+	
+	public void completeTask(TasksRequest request)
+	{
+		Optional<Tasks> t = taskRepo.findById(request.getTaskid());
+		if(t.isPresent())
+		{
+			taskRepo.save(new Tasks(t.get().getTaskid(), t.get().getDescription(), true));
+		}
+		else
+		{
+			//throw new BusinessException("No task present with id : "+request.getTaskid());
+			
+			//Log that no task is present and return, throwing exception will send the
+			// consumer in an infinite error loop since the message is still present in the Queue
+			return;
 		}
 	}
 	
 	public void deleteTask(Integer id)
 	{
-		taskRepo.deleteById(id);
+		if(taskRepo.findById(id).isPresent())
+		{
+			taskRepo.deleteById(id);
+		}
 	}
 	
 	public List<TasksResponse> getAllTasks()

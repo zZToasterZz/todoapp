@@ -18,7 +18,7 @@ import lombok.ToString;
 public class TasksRequest
 {
 	Integer taskid=0;
-	String description;
-	Boolean complete;
+	String description="";
+	Boolean complete=false;
 	String delete="N";
 }

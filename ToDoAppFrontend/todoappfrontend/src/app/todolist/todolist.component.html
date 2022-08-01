@@ -1,1 +1,79 @@
-<p>todolist works!</p>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><b>To-Do List</b></a>
+        <div class="">
+            <form #taskAddForm="ngForm" (ngSubmit)="addTask(taskAddForm)" class="d-flex" role="search">
+                <input ngModel name="description" class="form-control me-2" type="search" placeholder="New task">
+                <button class="btn btn-outline-success" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<br>
+<table class="table table-striped">
+    <thead class="table-secondary">
+        <tr>
+            <td scope="col" style="width: 10%;"><b>Id</b></td>
+            <td scope="col" style="width: 60%;"><b>Task</b></td>
+            <td scope="col" style="width: 10%;"><b>Status</b></td>
+            <td scope="col" style="width: 10%;"></td>
+            <td scope="col" style="width: 10%;">
+                <input type="button" (click)="refreshList()" value="Refresh" class="btn btn-secondary btn-block" style="width: 80px;">
+            </td>
+        </tr>
+    </thead>
+    <tr *ngFor="let i of todoData">
+        <td>{{i.taskid}}</td>
+        <td>{{i.description}}</td>
+        <td>
+            <div *ngIf="i.complete == true">
+                <p class="text-success">complete</p>
+            </div>
+            <div *ngIf="i.complete != true">
+                <input type="checkbox" (change)="markComplete($event, i.taskid)">
+            </div>
+        </td>
+        <td>
+            <input (click)="editTask(i.taskid, i.description, i.complete, content)" type="button" value="edit" class="btn btn-primary btn-outline-primary btn-block" style="width: 80px;">
+        </td>
+        <td><input (click)="deleteTask(i.taskid, deleteConfirm)" type="button" value="delete" class="btn btn-primary btn-outline-danger btn-block" style="width: 80px;"></td>
+    </tr>
+</table>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit task</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form #editTaskForm="ngForm" (ngSubmit)="changeTask(editTaskForm)">
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="dateOfBirth">Description</label>
+                <div class="input-group">
+                    <input ngModel #editfield type="text" class="form-control" id="editedTask" name="editedTask">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #deleteConfirm let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Delete task ?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            <label for="dateOfBirth">Description</label>
+            <div class="input-group">
+                <p>Are you sure you want to delete this task ?</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-danger" (click)="modal.close('Save click')">Delete</button>
+    </div>
+</ng-template>

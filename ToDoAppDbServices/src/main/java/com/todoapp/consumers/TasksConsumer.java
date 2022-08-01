@@ -32,7 +32,18 @@ public class TasksConsumer
 			}
 			else
 			{
-				tasksService.updateTask(req); //update is id is present and delete is not Y
+				try
+				{
+					if(req.getComplete())
+						tasksService.completeTask(req); //update if id is present and delete is not Y and complete is Y
+					else
+						tasksService.updateTask(req);
+				}
+				catch(NullPointerException e)
+				{
+					req.setComplete(false);
+					tasksService.updateTask(req);
+				}
 			}
 		}
 	}

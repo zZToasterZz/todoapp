@@ -20,5 +20,6 @@ public class TasksRequest
 	private Integer taskid=0;
 	private String description;
 	private Boolean complete;
+	private String completeAsString;
 	private String delete="N";
 }
