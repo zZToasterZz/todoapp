@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,6 +28,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
+@Builder
 @DynamicUpdate
 public class Tasks
 {
