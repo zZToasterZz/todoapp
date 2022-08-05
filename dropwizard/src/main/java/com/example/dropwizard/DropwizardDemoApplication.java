@@ -1,12 +1,19 @@
 package com.example.dropwizard;
 
+
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheck.Result;
 import com.example.dropwizard.resources.TodoResource;
 
+import io.dropwizard.client.HttpClientBuilder;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
+import jakarta.ws.rs.client.Client;
 
 public class DropwizardDemoApplication extends Application<DropwizardDemoConfiguration>
 {
@@ -28,16 +35,18 @@ public class DropwizardDemoApplication extends Application<DropwizardDemoConfigu
     }
 
     @Override
-    public void run(final DropwizardDemoConfiguration configuration, final Environment environment)
+    public void run(final DropwizardDemoConfiguration config, final Environment environment)
     {
+    	final Client client = new JerseyClientBuilder(environment).using(config.getJerseyClientConfiguration())
+                .build(getName());
+    	environment.jersey().register(new TodoResource(client));
+    	
     	environment.healthChecks().register(getName(), new HealthCheck() {
-			
 			@Override
 			protected Result check() throws Exception {
 				
 				return Result.healthy();
 			}
 		});
-    	environment.jersey().register(new TodoResource());
     }
 }

@@ -1,5 +1,6 @@
 package com.todoapp.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -89,6 +90,6 @@ public class TasksService
 		
 		return x.stream().map(i -> {
 			return new TasksResponse(i.getTaskid(), i.getDescription(), i.getComplete());
-		}).collect(Collectors.toList());
+		}).sorted(Comparator.comparing(TasksResponse::getTaskid)).collect(Collectors.toList());
 	}
 }
