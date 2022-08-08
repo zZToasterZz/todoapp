@@ -16,12 +16,14 @@ public class DropwizardDemoConfiguration extends Configuration
     private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
 
     @JsonProperty("jerseyClient")
-    public JerseyClientConfiguration getJerseyClientConfiguration() {
+    public JerseyClientConfiguration getJerseyClientConfiguration()
+    {
         return jerseyClient;
     }
 
     @JsonProperty("jerseyClient")
-    public void setJerseyClientConfiguration(JerseyClientConfiguration jerseyClient) {
+    public void setJerseyClientConfiguration(JerseyClientConfiguration jerseyClient)
+    {
         this.jerseyClient = jerseyClient;
     }
 }

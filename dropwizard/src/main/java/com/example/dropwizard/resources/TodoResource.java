@@ -1,8 +1,16 @@
 package com.example.dropwizard.resources;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.TimeoutException;
+
+import com.example.dropwizard.consumer.QueueConsumer;
+import com.example.dropwizard.models.TodoRequest;
+import com.example.dropwizard.producer.Producer;
 
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.client.Client;
@@ -17,18 +25,30 @@ public class TodoResource
 {
 	Client client;
 	
-	public TodoResource(Client client) {
+	public TodoResource(Client client)
+	{
 		this.client=client;
 	}
 
-	@GET
-	public String get()
+	@POST
+	@Path("/add")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public TodoRequest get(TodoRequest request) throws IOException, TimeoutException
 	{
-		WebTarget webTarget = client.target("https://jsonplaceholder.typicode.com/posts");
-	    Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
-	    Response response = invocationBuilder.get();
-	    @SuppressWarnings("rawtypes")
-	    ArrayList employees = response.readEntity(ArrayList.class);
-	    return employees.toString();
+		System.out.println(request.toString());
+		
+		ArrayList<Integer> ar = new ArrayList<>();
+		ar.add(10);
+		ar.add(20);
+		ar.add(30);
+		request.setAr(ar);
+		
+		HashMap<String, TodoRequest> payLoad = new HashMap<>();
+		payLoad.put("data", request);
+		
+		Producer producer = new Producer("dropwizardqueue");
+		producer.sendMessage(payLoad);
+		
+	    return request;
 	}
 }

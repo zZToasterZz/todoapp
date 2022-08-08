@@ -6,6 +6,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheck.Result;
+import com.example.dropwizard.consumer.QueueConsumer;
 import com.example.dropwizard.resources.TodoResource;
 
 import io.dropwizard.client.HttpClientBuilder;
@@ -20,6 +21,10 @@ public class DropwizardDemoApplication extends Application<DropwizardDemoConfigu
     public static void main(final String[] args) throws Exception
     {
         new DropwizardDemoApplication().run(args);
+        
+        QueueConsumer consumer = new QueueConsumer("dropwizardqueue");
+		Thread consumerThread = new Thread(consumer);
+		consumerThread.start();
     }
 
     @Override
