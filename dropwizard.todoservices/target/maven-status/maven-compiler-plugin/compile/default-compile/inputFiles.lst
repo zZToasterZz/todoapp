@@ -1,0 +1,10 @@
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\models\TasksResponse.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\todoappservicesApplication.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\todoappservicesConfiguration.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\config\RabbitEndPoint.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\consumer\QueueConsumer.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\entity\Tasks.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\models\TasksRequest.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\consumer\TasksQueueHandler.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\service\TasksService.java
+D:\Workspaces\SpringToolsSuite\ToDoApp\todoapp\dropwizard.todoservices\src\main\java\com\dropwizard\todoservices\resources\TasksResource.java

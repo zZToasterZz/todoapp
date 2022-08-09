@@ -9,6 +9,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.dropwizard.todoservices.consumer.QueueConsumer;
 import com.dropwizard.todoservices.consumer.TasksQueueHandler;
+import com.dropwizard.todoservices.resources.TasksResource;
 import com.dropwizard.todoservices.service.TasksService;
 
 import io.dropwizard.core.Application;
@@ -21,6 +22,11 @@ public class todoappservicesApplication extends Application<todoappservicesConfi
     public static void main(final String[] args) throws Exception
     {
         new todoappservicesApplication().run(args);
+        
+        //start consumer thread. Switch to executor service later
+        QueueConsumer consumer = new QueueConsumer("tododropwizardqueue", TasksQueueHandler.getInstance());
+		Thread consumerThread = new Thread(consumer);
+		consumerThread.start();
     }
 
     @Override
@@ -44,12 +50,10 @@ public class todoappservicesApplication extends Application<todoappservicesConfi
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.openSession();
         
-        //Register service and inject hibernate session object
-        environment.jersey().register(new TasksService(session));
+        //Create service and inject hibernate session object
+        TasksService tasksService = new TasksService(session);
         
-        //start consumer thread. Switch to executor service later
-        QueueConsumer consumer = new QueueConsumer("tododropwizardqueue", TasksQueueHandler.getInstance());
-		Thread consumerThread = new Thread(consumer);
-		consumerThread.start();
+        environment.jersey().register(tasksService);
+        environment.jersey().register(new TasksResource(tasksService));
     }
 }

@@ -20,7 +20,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/todo")
-@Produces(MediaType.APPLICATION_JSON)
 public class TodoResource
 {
 	Client client;

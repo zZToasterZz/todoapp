@@ -2,7 +2,3 @@ logging:
   level: INFO
   loggers:
     com: DEBUG
-
-http:
-  port: 7000
-  adminPort: 7001

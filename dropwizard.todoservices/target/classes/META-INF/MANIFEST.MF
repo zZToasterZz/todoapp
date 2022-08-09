@@ -43,7 +43,7 @@ Class-Path: dropwizard-core-4.0.0-beta.2.jar dropwizard-util-4.0.0-beta.
  bind-api-4.0.0.jar jakarta.activation-api-2.1.0.jar jaxb-runtime-3.0.2.
  jar jakarta.activation-2.0.1.jar jaxb-core-3.0.2.jar txw2-3.0.2.jar ist
  ack-commons-runtime-4.0.1.jar antlr4-runtime-4.10.jar lombok-1.18.24.ja
- r amqp-client-5.15.0.jar commons-lang-2.6.jar
+ r amqp-client-5.15.0.jar commons-lang-2.6.jar postgresql-42.3.6.jar
 Main-Class: com.dropwizard.todoservices.todoappservicesApplication
 Created-By: Maven Integration for Eclipse
 

@@ -15,7 +15,7 @@ public class TasksQueueHandler
 	
 	public void handleDelivery(byte[] body)
 	{
-		Map map = (HashMap)SerializationUtils.deserialize(body);
+		Map<String, TasksRequest> map = (HashMap<String, TasksRequest>)SerializationUtils.deserialize(body);
 	    TasksRequest req = (TasksRequest)map.get("data");
 	    System.out.println(req.toString());
 	    
