@@ -10,8 +10,12 @@ import com.dropwizard.todoservices.service.TasksService;
 
 public class TasksQueueHandler
 {
-	private static TasksQueueHandler handler;
 	private TasksService tasksService;
+	
+	public TasksQueueHandler(TasksService tasksService)
+	{
+		this.tasksService=tasksService;
+	}
 	
 	public void handleDelivery(byte[] body)
 	{
@@ -48,13 +52,5 @@ public class TasksQueueHandler
 	    
 	}
 	
-	//Making the class singleton since we don't need multiple objects for this
-	public static TasksQueueHandler getInstance()
-	{
-		if(handler==null)
-			return new TasksQueueHandler();
-		else
-			return handler;
-	}
-	private TasksQueueHandler(){}
+	TasksQueueHandler(){}
 }

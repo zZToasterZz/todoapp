@@ -11,6 +11,7 @@ import com.dropwizard.todoservices.consumer.QueueConsumer;
 import com.dropwizard.todoservices.consumer.TasksQueueHandler;
 import com.dropwizard.todoservices.resources.TasksResource;
 import com.dropwizard.todoservices.service.TasksService;
+import com.dropwizard.todoservices.utils.HibernateUtil;
 
 import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
@@ -22,11 +23,6 @@ public class todoappservicesApplication extends Application<todoappservicesConfi
     public static void main(final String[] args) throws Exception
     {
         new todoappservicesApplication().run(args);
-        
-        //start consumer thread. Switch to executor service later
-        QueueConsumer consumer = new QueueConsumer("tododropwizardqueue", TasksQueueHandler.getInstance());
-		Thread consumerThread = new Thread(consumer);
-		consumerThread.start();
     }
 
     @Override
@@ -44,16 +40,18 @@ public class todoappservicesApplication extends Application<todoappservicesConfi
     @Override
     public void run(final todoappservicesConfiguration config, final Environment environment) throws IOException, TimeoutException
     {
-    	//Hibernate Config
-    	Configuration configuration = new Configuration();
-    	configuration.configure("hibernate.cfg.xml");
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        
+    	HibernateUtil util = HibernateUtil.getInstance();
+    	
         //Create service and inject hibernate session object
-        TasksService tasksService = new TasksService(session);
+        TasksService tasksService = new TasksService(util.getSession());
+        TasksQueueHandler handler = new TasksQueueHandler(tasksService);
         
-        environment.jersey().register(tasksService);
-        environment.jersey().register(new TasksResource(tasksService));
+        environment.jersey().register(new TasksResource());
+        
+        //start consumer thread. Switch to executor service later
+        QueueConsumer consumer = new QueueConsumer("tododropwizardqueue", handler);
+		Thread consumerThread = new Thread(consumer);
+		consumerThread.start();
+        
     }
 }

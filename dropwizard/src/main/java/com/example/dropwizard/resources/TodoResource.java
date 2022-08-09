@@ -5,23 +5,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
-import com.example.dropwizard.consumer.QueueConsumer;
 import com.example.dropwizard.models.TodoRequest;
 import com.example.dropwizard.producer.Producer;
+import com.example.dropwizard.repository.TestRepo;
+import com.example.dropwizard.service.TestService;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.Invocation;
-import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 @Path("/todo")
 public class TodoResource
 {
+	@Inject
+	@Named("test")
+	TestRepo repo;
+	
 	Client client;
 	
 	public TodoResource(Client client)
@@ -49,5 +53,12 @@ public class TodoResource
 		producer.sendMessage(payLoad);
 		
 	    return request;
+	}
+	
+	@GET
+	@Path("/test")
+	public String hello()
+	{
+		return repo.getHello();
 	}
 }
