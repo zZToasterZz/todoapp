@@ -3,6 +3,7 @@ package com.dropwizard.todocontroller.resources;
 import java.util.*;
 
 import com.dropwizard.todocontroller.models.*;
+import com.dropwizard.todocontroller.producer.Producer;
 
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -19,8 +20,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/todo")
+@Produces(MediaType.APPLICATION_JSON)
 public class TodoResource
 {
+	Producer dropwizardqueue = new Producer("dropwizardqueue");
+	
 	Client client;
 	
 	public TodoResource(Client client)
@@ -30,29 +34,62 @@ public class TodoResource
 	
 	@POST
 	@Path("/add")
-	public String addTask(TasksRequest request)
+	public Response addTask(TasksRequest request)
 	{
-		return "Accepted";
+		request.setTaskid(0);
+		request.setDelete("");
+		request.setComplete(false);
+		
+		HashMap<String, TasksRequest> payLoad = new HashMap<>();
+		payLoad.put("data", request);
+		
+		dropwizardqueue.sendMessage(payLoad);
+		
+		return Response.ok("accepted").build();
 	}
 	
 	@PUT
 	@Path("/update")
-	public String upateTask(TasksRequest request)
+	public Response upateTask(TasksRequest request)
 	{
-		return "Accepted";
+		
+		if(request.getTaskid() == null || request.getTaskid() == 0)
+			return Response.status(400, "ID cannot be null or zero for updating a task.").build();
+		
+		request.setDelete("");
+		request.setComplete(false);
+		
+		HashMap<String, TasksRequest> payLoad = new HashMap<>();
+		payLoad.put("data", request);
+		
+		dropwizardqueue.sendMessage(payLoad);
+		
+		return Response.ok("accepted").build();
 	}
 	
 	@PATCH
 	@Path("/complete/{id}")
-	public String completeTask(Integer id)
+	public Response completeTask(@PathParam("id") Integer id)
 	{
-		return "Accepted";
+		if(id == 0)
+			return Response.status(400, "ID cannot be null or zero for completing a task.").build();
+		
+		TasksRequest request = new TasksRequest();
+		request.setTaskid(id);
+		request.setComplete(true);
+		
+		HashMap<String, TasksRequest> payLoad = new HashMap<>();
+		payLoad.put("data", request);
+		
+		dropwizardqueue.sendMessage(payLoad);
+		
+		return Response.ok("accepted").build();
 	}
 	
 	@GET
 	@Path("/fetch")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<?> getTasks()
+	public Response getTasks()
 	{
 		WebTarget webTarget = client.target("http://localhost:9090/todo/fetch");
 		Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
@@ -60,13 +97,20 @@ public class TodoResource
 		@SuppressWarnings("rawtypes")
 		ArrayList tasks = response.readEntity(ArrayList.class);
 		
-		return tasks;
+		return Response.ok(tasks).build();
 	}
 	
 	@DELETE
 	@Path("/delete/{id}")
-	public String deleteTask(@PathParam("id") Integer id)
+	public Response deleteTask(@PathParam("id") Integer id)
 	{
-		return "Accepted";
+		TasksRequest request = new TasksRequest(id,"",false,"Y");
+		
+		HashMap<String, TasksRequest> payLoad = new HashMap<>();
+		payLoad.put("data", request);
+		
+		dropwizardqueue.sendMessage(payLoad);
+		
+		return Response.ok("accepted").build();
 	}
 }

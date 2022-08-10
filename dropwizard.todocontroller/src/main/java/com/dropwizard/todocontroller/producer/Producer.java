@@ -10,13 +10,20 @@ import com.dropwizard.todocontroller.config.RabbitEndPoint;
 
 public class Producer extends RabbitEndPoint
 {
-	public Producer(String endpointName) throws IOException, TimeoutException
+	public Producer(String endpointName)
 	{
 		super(endpointName);
 	}
 	
-	public void sendMessage(Serializable object) throws IOException
+	public void sendMessage(Serializable object)
 	{
-	    channel.basicPublish("",endPointName, null, SerializationUtils.serialize(object));
+	    try
+	    {
+			channel.basicPublish("",endPointName, null, SerializationUtils.serialize(object));
+		}
+	    catch (IOException e)
+	    {
+			e.printStackTrace();
+		}
 	}
 }

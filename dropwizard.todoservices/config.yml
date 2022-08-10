@@ -8,7 +8,7 @@ server:
   applicationContextPath: /
   applicationConnectors:
     - type: http
-      port: 9090
+      port: 9091
   adminConnectors:
     - type: http
-      port: 9091
+      port: 8091

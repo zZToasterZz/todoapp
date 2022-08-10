@@ -13,19 +13,35 @@ public abstract class RabbitEndPoint
     protected Connection connection;
     protected String endPointName;
     
-	public RabbitEndPoint(String endpointName) throws IOException, TimeoutException
+	public RabbitEndPoint(String endpointName)
 	{
 	    this.endPointName = endpointName;
 	    ConnectionFactory factory = new ConnectionFactory();
 	    factory.setHost("localhost");
-	    connection = factory.newConnection();
-	    channel = connection.createChannel();
-	    channel.queueDeclare(endpointName, false, false, false, null);
+	    try
+	    {
+			connection = factory.newConnection();
+			channel = connection.createChannel();
+		    channel.queueDeclare(endpointName, false, false, false, null);
+		}
+	    catch (IOException | TimeoutException e)
+	    {
+			e.printStackTrace();
+		}
+	    
 	}
     
-	public void close() throws IOException, TimeoutException
+	public void close()
 	{
-	    this.channel.close();
-	    this.connection.close();
+	    try
+	    {
+			this.channel.close();
+			this.connection.close();
+		}
+	    catch (IOException | TimeoutException e)
+	    {
+			e.printStackTrace();
+		}
+	    
 	}
 }

@@ -2,3 +2,13 @@ logging:
   level: INFO
   loggers:
     com: DEBUG
+
+server:
+  adminContextPath: /
+  applicationContextPath: /
+  applicationConnectors:
+    - type: http
+      port: 9090
+  adminConnectors:
+    - type: http
+      port: 8090
