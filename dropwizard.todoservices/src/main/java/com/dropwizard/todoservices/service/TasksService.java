@@ -58,11 +58,18 @@ public class TasksService
 		Query query = session.createQuery("from Tasks where taskid = :id");
 		query.setParameter("id", request.getTaskid());
 		Tasks x = (Tasks)query.getResultList().get(0);
+		x.setDescription(request.getDescription());
 		
-		Tasks t = new Tasks(request.getTaskid(), request.getDescription(), x.getComplete());
+		//Tasks t = new Tasks(request.getTaskid(), request.getDescription(), x.getComplete());
 		
 		session.beginTransaction();
-		session.update(t);
+		
+		/*Query query1 = session.createQuery("update Tasks description = :descr , complete = :comp where taskid = :id");
+		query1.setParameter("id", x.getTaskid());
+		query1.setParameter("descr", request.getDescription());
+		query1.setParameter("comp", x.getComplete());*/
+		
+		session.update(x);
 		session.getTransaction().commit();
 	}
 	

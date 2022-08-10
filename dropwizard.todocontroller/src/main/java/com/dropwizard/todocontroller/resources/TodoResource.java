@@ -45,7 +45,7 @@ public class TodoResource
 		
 		dropwizardqueue.sendMessage(payLoad);
 		
-		return Response.ok("accepted").build();
+		return Response.ok(new ResponseMessage("accepted")).build();
 	}
 	
 	@PUT
@@ -64,7 +64,7 @@ public class TodoResource
 		
 		dropwizardqueue.sendMessage(payLoad);
 		
-		return Response.ok("accepted").build();
+		return Response.ok(new ResponseMessage("accepted")).build();
 	}
 	
 	@PATCH
@@ -83,7 +83,7 @@ public class TodoResource
 		
 		dropwizardqueue.sendMessage(payLoad);
 		
-		return Response.ok("accepted").build();
+		return Response.ok(new ResponseMessage("accepted")).build();
 	}
 	
 	@GET
@@ -111,6 +111,6 @@ public class TodoResource
 		
 		dropwizardqueue.sendMessage(payLoad);
 		
-		return Response.ok("accepted").build();
+		return Response.ok(new ResponseMessage("accepted")).build();
 	}
 }
