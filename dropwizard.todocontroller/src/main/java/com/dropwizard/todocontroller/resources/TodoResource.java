@@ -23,7 +23,7 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class TodoResource
 {
-	Producer dropwizardqueue = new Producer("dropwizardqueue");
+	Producer dropwizardqueue = new Producer("todoqueue");
 	
 	Client client;
 	
@@ -91,7 +91,7 @@ public class TodoResource
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTasks()
 	{
-		WebTarget webTarget = client.target("http://localhost:9090/todo/fetch");
+		WebTarget webTarget = client.target("http://localhost:9091/todo/fetch");
 		Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.get();
 		@SuppressWarnings("rawtypes")

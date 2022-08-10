@@ -6,6 +6,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang.SerializationUtils;
 
+import com.dropwizard.todocontroller.models.TasksRequest;
 import com.dropwizard.todoservices.config.RabbitEndPoint;
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Consumer;
@@ -36,9 +37,10 @@ public class QueueConsumer extends RabbitEndPoint implements Runnable, Consumer
 
 	public void handleConsumeOk(String consumerTag)
 	{
-		System.out.println("Consumer "+consumerTag +" registered");
+		//System.out.println("Consumer "+consumerTag +" registered");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void handleDelivery(String consumerTag, Envelope env, BasicProperties props, byte[] body) throws IOException
 	{

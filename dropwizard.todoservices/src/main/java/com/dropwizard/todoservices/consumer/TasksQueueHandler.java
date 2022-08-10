@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.SerializationUtils;
 
-import com.dropwizard.todoservices.models.TasksRequest;
+import com.dropwizard.todocontroller.models.TasksRequest;
 import com.dropwizard.todoservices.service.TasksService;
 
 public class TasksQueueHandler
@@ -17,6 +17,7 @@ public class TasksQueueHandler
 		this.tasksService=tasksService;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void handleDelivery(byte[] body)
 	{
 		Map<String, TasksRequest> map = (HashMap<String, TasksRequest>)SerializationUtils.deserialize(body);
@@ -49,7 +50,6 @@ public class TasksQueueHandler
 				}
 			}
 		}
-	    
 	}
 	
 	TasksQueueHandler(){}

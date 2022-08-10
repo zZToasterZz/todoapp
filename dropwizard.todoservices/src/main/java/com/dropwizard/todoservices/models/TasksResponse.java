@@ -1,5 +1,7 @@
 package com.dropwizard.todoservices.models;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,8 +17,10 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class TasksResponse
+public class TasksResponse implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	Integer taskid;
 	String description;
 	Boolean complete;

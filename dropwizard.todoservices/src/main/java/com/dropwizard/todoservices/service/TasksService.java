@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 import org.hibernate.Session;
 
+import com.dropwizard.todocontroller.models.TasksRequest;
 import com.dropwizard.todoservices.entity.Tasks;
-import com.dropwizard.todoservices.models.TasksRequest;
 import com.dropwizard.todoservices.models.TasksResponse;
 
 import jakarta.persistence.Query;

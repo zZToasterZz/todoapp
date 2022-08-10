@@ -102,6 +102,7 @@ export class TodolistComponent implements OnInit
   {
     this.todoservice.fetchTodo().subscribe(data => {
       this.todoData=data;
+      console.log(data);
     });
   }
 }
